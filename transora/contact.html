@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>문의하기 | Transora.ai</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>body{font-family:'Inter',sans-serif}</style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+  <!-- Header -->
+  <header class="bg-white shadow-md">
+    <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+      <a href="landing.html" class="text-2xl font-bold text-indigo-600">Transora.ai</a>
+      <nav class="hidden md:flex space-x-6">
+        <a href="landing.html#features" class="text-gray-600 hover:text-indigo-600">특징</a>
+        <a href="landing.html#pricing" class="text-gray-600 hover:text-indigo-600">가격</a>
+        <a href="landing.html#testimonials" class="text-gray-600 hover:text-indigo-600">후기</a>
+        <a href="contact.html" class="text-gray-600 hover:text-indigo-600">문의</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Content -->
+  <main class="max-w-2xl mx-auto p-8">
+    <h1 class="text-3xl font-bold mb-6">문의하기</h1>
+    <!-- Tip: replace with your backend endpoint later -->
+    <form action="mailto:support@transora.ai" method="POST" enctype="text/plain" class="space-y-4">
+      <div>
+        <label class="block mb-1 font-semibold">이름</label>
+        <input type="text" name="name" required class="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-indigo-500">
+      </div>
+      <div>
+        <label class="block mb-1 font-semibold">이메일</label>
+        <input type="email" name="email" required class="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-indigo-500">
+      </div>
+      <div>
+        <label class="block mb-1 font-semibold">제목</label>
+        <input type="text" name="subject" class="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-indigo-500">
+      </div>
+      <div>
+        <label class="block mb-1 font-semibold">메시지</label>
+        <textarea name="message" rows="6" required class="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-indigo-500"></textarea>
+      </div>
+      <button type="submit" class="bg-indigo-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-indigo-700">보내기</button>
+    </form>
+
+    <div class="mt-8 p-4 bg-white border rounded-lg">
+      <p class="text-sm text-gray-600">고객센터 이메일: <a href="mailto:support@transora.ai" class="text-indigo-600 underline">support@transora.ai</a></p>
+      <p class="text-sm text-gray-600 mt-1">사업자 정보: [회사명] · [사업자등록번호] · [주소]</p>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-gray-800 text-gray-300 py-12 px-6 mt-12">
+    <div class="container mx-auto text-center">
+      <h3 class="text-2xl font-bold text-white mb-4">Transora.ai</h3>
+      <p class="mb-4">© 2025 Transora.ai. All rights reserved.</p>
+      <div class="flex justify-center space-x-6">
+        <a href="terms.html" class="hover:text-white">이용약관</a>
+        <a href="privacy.html" class="hover:text-white">개인정보처리방침</a>
+        <a href="contact.html" class="hover:text-white">문의하기</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
