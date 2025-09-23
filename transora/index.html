@@ -1,462 +1,481 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Transora.ai - 언어 장벽을 허무는 AI 자막 & 번역</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    body { font-family: 'Inter', sans-serif; background-color: #f7f9fc; }
-    .card { box-shadow: 0 4px 6px rgba(0,0,0,.1); transition: transform .3s ease, box-shadow .3s ease; }
-    .card:hover { transform: translateY(-5px); box-shadow: 0 10px 15px rgba(0,0,0,.2); }
-    .sidebar { width: 250px; min-width: 250px; background-color: #ffffff; border-right: 1px solid #e2e8f0; }
-    .main-content { flex: 1; }
-    .table-header { background-color: #f1f5f9; }
-    .table-row:hover { background-color: #e2e8f0; }
-    .status-dot { width: 10px; height: 10px; border-radius: 50%; }
-    .text-completed { color: #10b981; }
-    /* reveal on scroll */
-    .reveal { opacity: 0; transform: translateY(16px); transition: opacity .6s ease, transform .6s ease; }
-    .reveal.revealed { opacity: 1; transform: translateY(0); }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transora.ai - 언어 장벽을 허무는 AI 자막 & 번역</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f9fc;
+        }
+        .bg-hero {
+            background-image: url('https://placehold.co/1920x1080/4F46E5/ffffff?text=Transora.ai+Hero+Section');
+            background-size: cover;
+            background-position: center;
+        }
+        .card {
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+        }
+        .sidebar {
+            width: 250px;
+            min-width: 250px;
+            background-color: #ffffff;
+            border-right: 1px solid #e2e8f0;
+        }
+        .main-content {
+            flex: 1;
+        }
+        .table-header {
+            background-color: #f1f5f9;
+        }
+        .table-row:hover {
+            background-color: #e2e8f0;
+        }
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+        .text-completed {
+            color: #10b981; /* green-500 */
+        }
+    </style>
 </head>
 <body class="text-gray-800">
-  <div id="app" class="flex flex-col min-h-screen">
-    <!-- Landing (Login) Page -->
-    <div id="login-page" class="flex-1">
-      <!-- Header -->
-      <header class="bg-white shadow-md">
-        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-          <a href="landing.html" class="text-2xl font-bold text-indigo-600">Transora.ai</a>
-          <nav class="hidden md:flex space-x-6">
-            <a href="#features" class="text-gray-600 hover:text-indigo-600">특징</a>
-            <a href="#pricing" class="text-gray-600 hover:text-indigo-600">가격</a>
-            <a href="#testimonials" class="text-gray-600 hover:text-indigo-600">후기</a>
-            <a href="contact.html" class="text-gray-600 hover:text-indigo-600">문의</a>
-          </nav>
-          <div class="flex items-center space-x-2 md:space-x-4">
-            <button data-modal="modal-signup" class="text-indigo-600 border border-indigo-600 px-4 py-2 rounded-full font-semibold hover:bg-indigo-50 transition duration-300">회원가입</button>
-            <button id="login-btn" class="bg-indigo-600 text-white px-4 py-2 rounded-full font-semibold hover:bg-indigo-700 transition duration-300">로그인</button>
-          </div>
-        </div>
-      </header>
 
-      <!-- Hero -->
-      <section class="bg-white py-20 px-6 text-center">
-        <div class="container mx-auto">
-          <h1 class="text-5xl md:text-6xl font-extrabold text-gray-900 leading-tight mb-4">
-            언어 장벽을 허무는 <span class="text-indigo-600">AI 자막 & 번역</span>
-          </h1>
-          <p class="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-            영상 파일을 업로드하거나 YouTube 링크를 붙여넣으세요. Transora의 최첨단 AI 기술이 자동으로 자막을 생성하고 번역해 드립니다.
-          </p>
-          <div class="relative w-full max-w-2xl mx-auto">
-            <input type="text" id="videoLinkInput" class="w-full px-6 py-4 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-300" placeholder="YouTube 링크를 붙여넣거나 파일 업로드...">
-            <button onclick="processVideo()" class="absolute right-2 top-2 bottom-2 bg-indigo-600 text-white px-8 py-2 rounded-full font-semibold hover:bg-indigo-700 transition duration-300">
-              시작하기
-            </button>
-          </div>
-          <p class="text-gray-500 mt-4 text-sm">무료로 시작하고, 고품질 결과를 경험하세요.</p>
-        </div>
-      </section>
+    <!-- Main Container -->
+    <div id="app" class="flex flex-col min-h-screen">
+        <!-- Login Page (initial view) -->
+        <div id="login-page" class="flex-1">
+            <!-- Header Section -->
+            <header class="bg-white shadow-md">
+                <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+                    <a href="#" class="text-2xl font-bold text-indigo-600">Transora.ai</a>
+                    <nav class="hidden md:flex space-x-6">
+                        <a href="#features" class="text-gray-600 hover:text-indigo-600">특징</a>
+                        <a href="#pricing" class="text-gray-600 hover:text-indigo-600">가격</a>
+                        <a href="#testimonials" class="text-gray-600 hover:text-indigo-600">후기</a>
+                        <a href="#contact" class="text-gray-600 hover:text-indigo-600">문의</a>
+                    </nav>
+                    <div class="flex items-center space-x-4">
+                        <button id="login-btn" class="bg-indigo-600 text-white px-4 py-2 rounded-full font-semibold hover:bg-indigo-700 transition duration-300">로그인</button>
+                    </div>
+                </div>
+            </header>
 
-      <!-- Features -->
-      <section id="features" class="py-20 px-6 bg-gray-50">
-        <div class="container mx-auto text-center">
-          <h2 class="text-4xl font-bold text-gray-900 mb-12">왜 Transora.ai를 선택해야 할까요?</h2>
-          <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-8">
-            <!-- F1 -->
-            <div class="card bg-white p-8 rounded-xl border border-gray-200 reveal">
-              <div class="flex items-center justify-center mb-4">
-                <svg class="w-12 h-12 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-              </div>
-              <h3 class="text-2xl font-semibold text-gray-800 mb-2">고정밀 & 초고속</h3>
-              <p class="text-gray-600 mb-4">Whisper와 LLM 기반의 AI 엔진. 1시간 분량 영상도 빠르게 처리합니다.</p>
-              <button data-modal="modal-f1" class="px-4 py-2 rounded-full bg-indigo-50 text-indigo-600 hover:bg-indigo-100 font-semibold transition">자세히 보기</button>
-            </div>
-            <!-- F2 -->
-            <div class="card bg-white p-8 rounded-xl border border-gray-200 reveal">
-              <div class="flex items-center justify-center mb-4">
-                <svg class="w-12 h-12 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v12m6-6H6"/></svg>
-              </div>
-              <h3 class="text-2xl font-semibold text-gray-800 mb-2">원스톱 AI 파이프라인</h3>
-              <p class="text-gray-600 mb-4">전사→번역→요약→검수까지 한 번에 처리합니다.</p>
-              <button data-modal="modal-f2" class="px-4 py-2 rounded-full bg-indigo-50 text-indigo-600 hover:bg-indigo-100 font-semibold transition">자세히 보기</button>
-            </div>
-            <!-- F3 -->
-            <div class="card bg-white p-8 rounded-xl border border-gray-200 reveal">
-              <div class="flex items-center justify-center mb-4">
-                <svg class="w-12 h-12 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12h18M12 3a9 9 0 100 18"/></svg>
-              </div>
-              <h3 class="text-2xl font-semibold text-gray-800 mb-2">한국어 특화 & 다국어</h3>
-              <p class="text-gray-600 mb-4">한국어 우수 성능과 98개 언어 지원으로 글로벌 제작에 최적화.</p>
-              <button data-modal="modal-f3" class="px-4 py-2 rounded-full bg-indigo-50 text-indigo-600 hover:bg-indigo-100 font-semibold transition">자세히 보기</button>
-            </div>
-            <!-- F4: Video-aware -->
-            <div class="card bg-white p-8 rounded-xl border border-gray-200 reveal">
-              <div class="flex items-center justify-center mb-4">
-                <svg class="w-12 h-12 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A2 2 0 0122 9.618v4.764a2 2 0 01-2.447 1.894L15 14V10zM4 6h8v12H4z"/></svg>
-              </div>
-              <h3 class="text-2xl font-semibold text-gray-800 mb-2">듣고 <em>보고</em> 전사</h3>
-              <p class="text-gray-600 mb-4">해당 시점의 영상을 함께 참조하는 Video-aware 전사로 더 높은 정확도.</p>
-              <button data-modal="modal-f4" class="px-4 py-2 rounded-full bg-indigo-50 text-indigo-600 hover:bg-indigo-100 font-semibold transition">자세히 보기</button>
-            </div>
-            <!-- F5: Backward refinement -->
-            <div class="card bg-white p-8 rounded-xl border border-gray-200 reveal">
-              <div class="flex items-center justify-center mb-4">
-                <svg class="w-12 h-12 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h4l3-6 4 12 3-6h4"/></svg>
-              </div>
-              <h3 class="text-2xl font-semibold text-gray-800 mb-2">문맥 기반 후방 보정</h3>
-              <p class="text-gray-600 mb-4">앞 문맥을 고려해 뒤로 갈수록 더 정교해지는 전사 성능.</p>
-              <button data-modal="modal-f5" class="px-4 py-2 rounded-full bg-indigo-50 text-indigo-600 hover:bg-indigo-100 font-semibold transition">자세히 보기</button>
-            </div>
-          </div>
-        </div>
-      </section>
+            <!-- Hero Section -->
+            <section class="bg-white py-20 px-6 text-center">
+                <div class="container mx-auto">
+                    <h1 class="text-5xl md:text-6xl font-extrabold text-gray-900 leading-tight mb-4">
+                        언어 장벽을 허무는 <span class="text-indigo-600">AI 자막 & 번역</span>
+                    </h1>
+                    <p class="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+                        영상 파일을 업로드하거나 YouTube 링크를 붙여넣으세요. Transora의 최첨단 AI 기술이 자동으로 자막을 생성하고 번역해 드립니다.
+                    </p>
+                    <div class="relative w-full max-w-2xl mx-auto">
+                        <input type="text" id="videoLinkInput" class="w-full px-6 py-4 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-300" placeholder="YouTube 링크를 붙여넣거나 파일 업로드...">
+                        <button onclick="processVideo()" class="absolute right-2 top-2 bottom-2 bg-indigo-600 text-white px-8 py-2 rounded-full font-semibold hover:bg-indigo-700 transition duration-300">
+                            시작하기
+                        </button>
+                    </div>
+                    <p class="text-gray-500 mt-4 text-sm">무료로 시작하고, 고품질 결과를 경험하세요.</p>
+                </div>
+            </section>
 
-      <!-- Pricing -->
-      <section id="pricing" class="py-20 px-6">
-        <div class="container mx-auto text-center">
-          <h2 class="text-4xl font-bold text-gray-900 mb-12">나만을 위한 합리적인 가격 플랜</h2>
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            <div class="card bg-white p-8 rounded-xl border-2 border-gray-200 flex flex-col items-center">
-              <h3 class="text-2xl font-semibold text-gray-800 mb-2">Freemium</h3>
-              <p class="text-5xl font-bold text-gray-900 mb-4">무료</p>
-              <ul class="text-gray-600 mb-6 text-left w-full space-y-2">
-                <li>✅ 월 10분 무료 사용</li>
-                <li>✅ 기본 자막 생성</li>
-                <li>✅ 기본 다국어 번역</li>
-                <li>✅ 무제한 파일 업로드</li>
-              </ul>
-              <button class="w-full bg-indigo-100 text-indigo-600 font-bold py-3 rounded-full hover:bg-indigo-200">무료로 시작하기</button>
-            </div>
-            <div class="card bg-indigo-600 p-8 rounded-xl border-2 border-indigo-600 flex flex-col items-center text-white">
-              <p class="text-sm font-semibold mb-2 bg-indigo-500 px-4 py-1 rounded-full">가장 인기있는 플랜</p>
-              <h3 class="text-2xl font-semibold mb-2">Subscription</h3>
-              <p class="text-5xl font-bold mb-4"><span class="text-4xl">$</span>10<span class="text-2xl">/월</span></p>
-              <ul class="text-white mb-6 text-left w-full space-y-2">
-                <li>✅ 월 100분 사용</li>
-                <li>✅ 고정밀 AI 자막 및 번역</li>
-                <li>✅ SRT/VTT/MP4 다운로드</li>
-                <li>✅ AI 요약 및 챕터</li>
-              </ul>
-              <button class="w-full bg-white text-indigo-600 font-bold py-3 rounded-full hover:bg-gray-100">구독하기</button>
-            </div>
-            <div class="card bg-white p-8 rounded-xl border-2 border-gray-200 flex flex-col items-center">
-              <h3 class="text-2xl font-semibold text-gray-800 mb-2">Usage-Based</h3>
-              <p class="text-5xl font-bold text-gray-900 mb-4"><span class="text-4xl">$</span>0.10<span class="text-2xl">/분</span></p>
-              <ul class="text-gray-600 mb-6 text-left w-full space-y-2">
-                <li>✅ 사용한 만큼 지불</li>
-                <li>✅ 애드온 기능 가능</li>
-                <li>✅ B2C/B2B 모두</li>
-                <li>✅ 대용량 최적화</li>
-              </ul>
-              <button class="w-full bg-indigo-100 text-indigo-600 font-bold py-3 rounded-full hover:bg-indigo-200">분당 결제하기</button>
-            </div>
-          </div>
-        </div>
-      </section>
+            <!-- Value Proposition Section -->
+            <section id="features" class="py-20 px-6 bg-gray-50">
+                <div class="container mx-auto text-center">
+                    <h2 class="text-4xl font-bold text-gray-900 mb-12">왜 Transora.ai를 선택해야 할까요?</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <!-- Feature 1: Accuracy & Speed -->
+                        <div class="card bg-white p-8 rounded-xl border border-gray-200">
+                            <div class="flex items-center justify-center mb-4">
+                                <svg class="w-12 h-12 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                                </svg>
+                            </div>
+                            <h3 class="text-2xl font-semibold text-gray-800 mb-2">고정밀 & 초고속</h3>
+                            <p class="text-gray-600">
+                                Whisper와 LLM 기반의 AI 엔진으로 98% 이상의 정확도를 자랑합니다. 1시간 분량의 영상을 5분 이내로 처리하여 시간을 획기적으로 절약하세요.
+                            </p>
+                        </div>
+                        <!-- Feature 2: B2C & B2B Flexibility -->
+                        <div class="card bg-white p-8 rounded-xl border border-gray-200">
+                            <div class="flex items-center justify-center mb-4">
+                                <svg class="w-12 h-12 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c1.657 0 3 1.343 3 3s-1.343 3-3 3-3-1.343-3-3 1.343-3 3-3z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18s-4 4-7 4-7-4-7-4"></path>
+                                </svg>
+                            </div>
+                            <h3 class="text-2xl font-semibold text-gray-800 mb-2">원스톱 AI 솔루션</h3>
+                            <p class="text-gray-600">
+                                전사, 번역, 후편집, 자동 검수까지 하나의 파이프라인에서 모두 해결됩니다. 여러 프로그램을 사용할 필요 없이 편리하게 이용하세요.
+                            </p>
+                        </div>
+                        <!-- Feature 3: Language & Localization -->
+                        <div class="card bg-white p-8 rounded-xl border border-gray-200">
+                            <div class="flex items-center justify-center mb-4">
+                                <svg class="w-12 h-12 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3 1.343 3 3s-1.343 3-3 3-3-1.343-3-3 1.343-3 3-3z"></path>
+                                </svg>
+                            </div>
+                            <h3 class="text-2xl font-semibold text-gray-800 mb-2">한국어 특화 & 다국어 지원</h3>
+                            <p class="text-gray-600">
+                                한국어 및 아시아권 언어에 특화된 튜닝으로 압도적인 정확도를 제공합니다. 98개 이상의 언어를 지원하여 글로벌 콘텐츠 제작에 최적화되어 있습니다.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-      <!-- Testimonials -->
-      <section id="testimonials" class="py-20 px-6 bg-gray-50">
-        <div class="container mx-auto text-center">
-          <h2 class="text-4xl font-bold text-gray-900 mb-12">유튜버, 크리에이터들의 솔직한 후기</h2>
-        </div>
-      </section>
+            <!-- Pricing Section -->
+            <section id="pricing" class="py-20 px-6">
+                <div class="container mx-auto text-center">
+                    <h2 class="text-4xl font-bold text-gray-900 mb-12">나만을 위한 합리적인 가격 플랜</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                        <!-- Plan 1: Free -->
+                        <div class="card bg-white p-8 rounded-xl border-2 border-gray-200 flex flex-col items-center">
+                            <h3 class="text-2xl font-semibold text-gray-800 mb-2">Freemium</h3>
+                            <p class="text-5xl font-bold text-gray-900 mb-4">무료</p>
+                            <ul class="text-gray-600 mb-6 text-left w-full space-y-2">
+                                <li>✅ 월 10분 무료 사용</li>
+                                <li>✅ 기본 자막 생성</li>
+                                <li>✅ 기본 다국어 번역</li>
+                                <li>✅ 무제한 파일 업로드</li>
+                            </ul>
+                            <button class="w-full bg-indigo-100 text-indigo-600 font-bold py-3 rounded-full hover:bg-indigo-200 transition duration-300">무료로 시작하기</button>
+                        </div>
+                        <!-- Plan 2: Subscription -->
+                        <div class="card bg-indigo-600 p-8 rounded-xl border-2 border-indigo-600 flex flex-col items-center text-white">
+                            <p class="text-sm font-semibold mb-2 bg-indigo-500 px-4 py-1 rounded-full">가장 인기있는 플랜</p>
+                            <h3 class="text-2xl font-semibold mb-2">Subscription</h3>
+                            <p class="text-5xl font-bold mb-4">
+                                <span class="text-4xl">$</span>10<span class="text-2xl">/월</span>
+                            </p>
+                            <ul class="text-white mb-6 text-left w-full space-y-2">
+                                <li>✅ 월 100분 사용</li>
+                                <li>✅ 고정밀 AI 자막 및 번역</li>
+                                <li>✅ 모든 포맷 다운로드 (SRT, VTT, MP4)</li>
+                                <li>✅ AI 기반 요약 및 챕터 분리</li>
+                            </ul>
+                            <button class="w-full bg-white text-indigo-600 font-bold py-3 rounded-full hover:bg-gray-100 transition duration-300">구독하기</button>
+                        </div>
+                        <!-- Plan 3: Pay-as-you-go -->
+                        <div class="card bg-white p-8 rounded-xl border-2 border-gray-200 flex flex-col items-center">
+                            <h3 class="text-2xl font-semibold text-gray-800 mb-2">Usage-Based</h3>
+                            <p class="text-5xl font-bold text-gray-900 mb-4">
+                                <span class="text-4xl">$</span>0.10<span class="text-2xl">/분</span>
+                            </p>
+                            <ul class="text-gray-600 mb-6 text-left w-full space-y-2">
+                                <li>✅ 사용한 만큼만 지불</li>
+                                <li>✅ 추가 기능 애드온 가능</li>
+                                <li>✅ B2C/B2B 모두 지원</li>
+                                <li>✅ 대용량 파일에 최적화</li>
+                            </ul>
+                            <button class="w-full bg-indigo-100 text-indigo-600 font-bold py-3 rounded-full hover:bg-indigo-200 transition duration-300">분당 결제하기</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-      <!-- Footer -->
-      <footer id="contact" class="bg-gray-800 text-gray-300 py-12 px-6">
-        <div class="container mx-auto text-center">
-          <h3 class="text-2xl font-bold text-white mb-4">Transora.ai</h3>
-          <p class="mb-4">© 2025 Transora.ai. All rights reserved.</p>
-          <div class="flex justify-center space-x-6">
-            <a href="terms.html" class="hover:text-white">이용약관</a>
-            <a href="privacy.html" class="hover:text-white">개인정보처리방침</a>
-            <a href="contact.html" class="hover:text-white">문의하기</a>
-          </div>
+            <!-- Testimonials Section -->
+            <section id="testimonials" class="py-20 px-6 bg-gray-50">
+                <div class="container mx-auto text-center">
+                    <h2 class="text-4xl font-bold text-gray-900 mb-12">유튜버, 크리에이터들의 솔직한 후기</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <!-- Testimonial 1 -->
+                        <div class="bg-white p-8 rounded-xl border border-gray-200 card">
+                            <p class="text-gray-600 italic mb-4">
+                                "Transora.ai 덕분에 영상 제작 시간이 절반으로 줄었어요. 특히 한국어 자막 정확도가 놀랍습니다. 이제 더 많은 언어로 제 콘텐츠를 글로벌 팬들에게 선보일 수 있게 되었어요!"
+                            </p>
+                            <div class="flex items-center justify-center">
+                                <img src="https://placehold.co/60x60/A0AEC0/000000?text=유저1" alt="유저 1" class="w-12 h-12 rounded-full mr-4">
+                                <div class="text-left">
+                                    <h4 class="font-semibold text-gray-800">김지훈 (테크 유튜버)</h4>
+                                    <p class="text-sm text-gray-500">2025.06.24</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Testimonial 2 -->
+                        <div class="bg-white p-8 rounded-xl border border-gray-200 card">
+                            <p class="text-gray-600 italic mb-4">
+                                "다른 서비스들은 영어 중심이라 불편했는데, Transora는 한국어와 중국어 번역이 정말 자연스러워서 만족스러워요. AI가 자동으로 문맥을 파악해서 번역해주는 기능이 최고입니다."
+                            </p>
+                            <div class="flex items-center justify-center">
+                                <img src="https://placehold.co/60x60/A0AEC0/000000?text=유저2" alt="유저 2" class="w-12 h-12 rounded-full mr-4">
+                                <div class="text-left">
+                                    <h4 class="font-semibold text-gray-800">이수민 (여행 Vlogger)</h4>
+                                    <p class="text-sm text-gray-500">2025.06.20</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Footer Section -->
+            <footer id="contact" class="bg-gray-800 text-gray-300 py-12 px-6">
+                <div class="container mx-auto text-center">
+                    <h3 class="text-2xl font-bold text-white mb-4">Transora.ai</h3>
+                    <p class="mb-4">© 2025 Transora.ai. All rights reserved.</p>
+                    <div class="flex justify-center space-x-6">
+                        <a href="#" class="hover:text-white">이용약관</a>
+                        <a href="#" class="hover:text-white">개인정보처리방침</a>
+                        <a href="#" class="hover:text-white">문의하기</a>
+                    </div>
+                </div>
+            </footer>
         </div>
-      </footer>
+
+        <!-- Dashboard Page (hidden initially) -->
+        <div id="dashboard-page" class="hidden flex-1 flex">
+            <!-- Sidebar -->
+            <aside class="sidebar p-6 flex flex-col items-start">
+                <a href="#" class="text-2xl font-bold text-indigo-600 mb-8">Transora.ai</a>
+                <div class="w-full mb-8">
+                    <div class="bg-gray-200 text-gray-700 p-4 rounded-xl text-center font-semibold">
+                        0 of 3 daily transcriptions used
+                    </div>
+                    <button class="w-full bg-indigo-600 text-white px-4 py-3 rounded-full font-semibold mt-4 hover:bg-indigo-700 transition duration-300">
+                        무제한 사용하기
+                    </button>
+                </div>
+                
+                <!-- Navigation -->
+                <nav class="w-full space-y-2">
+                    <a href="#" class="flex items-center space-x-3 text-gray-700 hover:bg-gray-100 rounded-lg p-3 font-semibold transition duration-200">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" d="M3 5a2 2 0 012-2h10a2 2 0 012 2v8a2 2 0 01-2 2h-2.586l-4.293 4.293A1 1 0 018 19.414V17H5a2 2 0 01-2-2v-8z" clip-rule="evenodd"></path>
+                        </svg>
+                        <span>최근 파일</span>
+                    </a>
+                    <a href="#" class="flex items-center space-x-3 text-gray-500 hover:bg-gray-100 rounded-lg p-3 transition duration-200">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path>
+                        </svg>
+                        <span>폴더</span>
+                    </a>
+                    <a href="#" class="flex items-center space-x-3 text-gray-500 hover:bg-gray-100 rounded-lg p-3 transition duration-200">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                        </svg>
+                        <span>새 폴더</span>
+                    </a>
+                </nav>
+            </aside>
+
+            <!-- Main Content Area -->
+            <main class="main-content p-8">
+                <header class="flex justify-between items-center mb-6">
+                    <h1 class="text-3xl font-bold text-gray-900">최근 파일</h1>
+                    <div class="flex items-center space-x-4">
+                        <button class="text-gray-500 hover:text-gray-700">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            </svg>
+                        </button>
+                        <button class="text-gray-500 hover:text-gray-700">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2v-8a2 2 0 012-2m14 0V9a2 2 0 00-2-2m-6 2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2h14a2 2 0 002-2v-2a2 2 0 00-2-2z"></path>
+                            </svg>
+                        </button>
+                        <button id="transcribe-btn" class="bg-indigo-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-indigo-700 transition duration-300">
+                            파일 변환하기
+                        </button>
+                    </div>
+                </header>
+
+                <!-- Recent Files Table -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                    <table class="w-full text-left">
+                        <thead class="table-header text-gray-600 uppercase text-sm">
+                            <tr>
+                                <th class="p-4 w-12">
+                                    <input type="checkbox" class="rounded text-indigo-600 focus:ring-indigo-500">
+                                </th>
+                                <th class="p-4 w-1/3">이름</th>
+                                <th class="p-4">업로드 날짜</th>
+                                <th class="p-4">시간</th>
+                                <th class="p-4">모드</th>
+                                <th class="p-4">상태</th>
+                                <th class="p-4 w-12"></th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200">
+                            <!-- Example Row 1 (Completed) -->
+                            <tr class="table-row">
+                                <td class="p-4">
+                                    <input type="checkbox" class="rounded text-indigo-600 focus:ring-indigo-500">
+                                </td>
+                                <td class="p-4 font-medium text-gray-800">
+                                    [오늘 이 뉴스] 오늘 밤은 감방? 자택? 키로.. 영장실질심사 [자막+번역]
+                                </td>
+                                <td class="p-4 text-gray-500">2025년 7월 9일 오후 3:58</td>
+                                <td class="p-4 text-gray-500">5분 11초</td>
+                                <td class="p-4 text-gray-500 flex items-center space-x-1">
+                                    <span>AI</span>
+                                </td>
+                                <td class="p-4 text-gray-500">
+                                    <span class="flex items-center space-x-2">
+                                        <span class="status-dot bg-green-500"></span>
+                                        <span class="text-completed">완료</span>
+                                    </span>
+                                </td>
+                                <td class="p-4 text-gray-500 text-right">
+                                    <button>
+                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M10 6a2 2 0 110-4 2 2 0 010 4zm0 6a2 2 0 110-4 2 2 0 010 4zm0 6a2 2 0 110-4 2 2 0 010 4z"></path>
+                                        </svg>
+                                    </button>
+                                </td>
+                            </tr>
+                            <!-- Example Row 2 (Completed) -->
+                            <tr class="table-row">
+                                <td class="p-4">
+                                    <input type="checkbox" class="rounded text-indigo-600 focus:ring-indigo-500">
+                                </td>
+                                <td class="p-4 font-medium text-gray-800">
+                                    구글 I/O 충격적인 AI 기술 발표
+                                </td>
+                                <td class="p-4 text-gray-500">2025년 5월 30일 오전 11:54</td>
+                                <td class="p-4 text-gray-500">30분</td>
+                                <td class="p-4 text-gray-500 flex items-center space-x-1">
+                                    <span>AI</span>
+                                </td>
+                                <td class="p-4 text-gray-500">
+                                    <span class="flex items-center space-x-2">
+                                        <span class="status-dot bg-green-500"></span>
+                                        <span class="text-completed">완료</span>
+                                    </span>
+                                </td>
+                                <td class="p-4 text-gray-500 text-right">
+                                    <button>
+                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M10 6a2 2 0 110-4 2 2 0 010 4zm0 6a2 2 0 110-4 2 2 0 010 4zm0 6a2 2 0 110-4 2 2 0 010 4z"></path>
+                                        </svg>
+                                    </button>
+                                </td>
+                            </tr>
+                            <!-- More rows... based on the user's image -->
+                            <tr class="table-row">
+                                <td class="p-4">
+                                    <input type="checkbox" class="rounded text-indigo-600 focus:ring-indigo-500">
+                                </td>
+                                <td class="p-4 font-medium text-gray-800">
+                                    "국내 고배당 ETF TOPS 완전 정리! 국내/고배당 ETF에 대해서 알아보겠습니다."
+                                </td>
+                                <td class="p-4 text-gray-500">2025년 5월 26일 오후 2:46</td>
+                                <td class="p-4 text-gray-500">15분 46초</td>
+                                <td class="p-4 text-gray-500 flex items-center space-x-1">
+                                    <span>AI</span>
+                                </td>
+                                <td class="p-4 text-gray-500">
+                                    <span class="flex items-center space-x-2">
+                                        <span class="status-dot bg-green-500"></span>
+                                        <span class="text-completed">완료</span>
+                                    </span>
+                                </td>
+                                <td class="p-4 text-gray-500 text-right">
+                                    <button>
+                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M10 6a2 2 0 110-4 2 2 0 010 4zm0 6a2 2 0 110-4 2 2 0 010 4zm0 6a2 2 0 110-4 2 2 0 010 4z"></path>
+                                        </svg>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr class="table-row">
+                                <td class="p-4">
+                                    <input type="checkbox" class="rounded text-indigo-600 focus:ring-indigo-500">
+                                </td>
+                                <td class="p-4 font-medium text-gray-800">
+                                    [속보요] 간밤에 일어난 미 증시 급락. 미국이 통화정책을 결정하는 FOMC 회의를...
+                                </td>
+                                <td class="p-4 text-gray-500">2025년 5월 22일 오전 11:18</td>
+                                <td class="p-4 text-gray-500">6분 56초</td>
+                                <td class="p-4 text-gray-500 flex items-center space-x-1">
+                                    <span>AI</span>
+                                </td>
+                                <td class="p-4 text-gray-500">
+                                    <span class="flex items-center space-x-2">
+                                        <span class="status-dot bg-green-500"></span>
+                                        <span class="text-completed">완료</span>
+                                    </span>
+                                </td>
+                                <td class="p-4 text-gray-500 text-right">
+                                    <button>
+                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M10 6a2 2 0 110-4 2 2 0 010 4zm0 6a2 2 0 110-4 2 2 0 010 4zm0 6a2 2 0 110-4 2 2 0 010 4z"></path>
+                                        </svg>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr class="table-row">
+                                <td class="p-4">
+                                    <input type="checkbox" class="rounded text-indigo-600 focus:ring-indigo-500">
+                                </td>
+                                <td class="p-4 font-medium text-gray-800">
+                                    암소소, 앤 캐리 트레이드가 진짜 어떤 거였어? (feat. 환율 투자, 외화벌이)
+                                </td>
+                                <td class="p-4 text-gray-500">2025년 5월 22일 오전 10:13</td>
+                                <td class="p-4 text-gray-500">30분</td>
+                                <td class="p-4 text-gray-500 flex items-center space-x-1">
+                                    <span>AI</span>
+                                </td>
+                                <td class="p-4 text-gray-500">
+                                    <span class="flex items-center space-x-2">
+                                        <span class="status-dot bg-green-500"></span>
+                                        <span class="text-completed">완료</span>
+                                    </span>
+                                </td>
+                                <td class="p-4 text-gray-500 text-right">
+                                    <button>
+                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M10 6a2 2 0 110-4 2 2 0 010 4zm0 6a2 2 0 110-4 2 2 0 010 4zm0 6a2 2 0 110-4 2 2 0 010 4z"></path>
+                                        </svg>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </main>
+        </div>
     </div>
 
-    <!-- Dashboard Page (hidden initially) -->
-    <div id="dashboard-page" class="hidden flex-1 flex">
-      <aside class="sidebar p-6 flex flex-col items-start">
-        <a href="landing.html" class="text-2xl font-bold text-indigo-600 mb-8">Transora.ai</a>
-        <div class="w-full mb-8">
-          <div class="bg-gray-200 text-gray-700 p-4 rounded-xl text-center font-semibold">
-            0 of 3 daily transcriptions used
-          </div>
-          <button class="w-full bg-indigo-600 text-white px-4 py-3 rounded-full font-semibold mt-4 hover:bg-indigo-700">무제한 사용하기</button>
-        </div>
-        <nav class="w-full space-y-2">
-          <a href="#" class="flex items-center space-x-3 text-gray-700 hover:bg-gray-100 rounded-lg p-3 font-semibold">
-            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M3 5a2 2 0 012-2h10a2 2 0 012 2v8a2 2 0 01-2 2h-2.586l-4.293 4.293A1 1 0 018 19.414V17H5a2 2 0 01-2-2v-8z" clip-rule="evenodd"/></svg>
-            <span>최근 파일</span>
-          </a>
-          <a href="#" class="flex items-center space-x-3 text-gray-500 hover:bg-gray-100 rounded-lg p-3">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/></svg>
-            <span>폴더</span>
-          </a>
-          <a href="#" class="flex items-center space-x-3 text-gray-500 hover:bg-gray-100 rounded-lg p-3">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v12m6-6H6"/></svg>
-            <span>새 폴더</span>
-          </a>
-        </nav>
-      </aside>
+    <script>
+        const loginPage = document.getElementById('login-page');
+        const dashboardPage = document.getElementById('dashboard-page');
+        const loginBtn = document.getElementById('login-btn');
+        const transcribeBtn = document.getElementById('transcribe-btn');
 
-      <main class="main-content p-8">
-        <header class="flex justify-between items-center mb-6">
-          <h1 class="text-3xl font-bold text-gray-900">최근 파일</h1>
-          <div class="flex items-center space-x-4">
-            <button class="text-gray-500 hover:text-gray-700">
-              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></path></svg>
-            </button>
-            <button class="text-gray-500 hover:text-gray-700">
-              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2v-8a2 2 0 012-2m14 0V9a2 2 0 00-2-2m-6 2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2h14a2 2 0 002-2v-2a2 2 0 00-2-2z"/></svg>
-            </button>
-            <button id="transcribe-btn" class="bg-indigo-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-indigo-700">파일 변환하기</button>
-          </div>
-        </header>
+        loginBtn.addEventListener('click', () => {
+            loginPage.classList.add('hidden');
+            dashboardPage.classList.remove('hidden');
+            document.title = 'Transora.ai - 최근 작업 내역';
+        });
 
-        <div class="bg-white rounded-xl shadow-md overflow-hidden">
-          <table class="w-full text-left">
-            <thead class="table-header text-gray-600 uppercase text-sm">
-              <tr>
-                <th class="p-4 w-12"><input type="checkbox" class="rounded text-indigo-600 focus:ring-indigo-500"></th>
-                <th class="p-4 w-1/3">이름</th>
-                <th class="p-4">업로드 날짜</th>
-                <th class="p-4">시간</th>
-                <th class="p-4">모드</th>
-                <th class="p-4">상태</th>
-                <th class="p-4 w-12"></th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-gray-200">
-              <tr class="table-row">
-                <td class="p-4"><input type="checkbox" class="rounded text-indigo-600 focus:ring-indigo-500"></td>
-                <td class="p-4 font-medium text-gray-800">샘플 파일 1</td>
-                <td class="p-4 text-gray-500">2025년 7월 9일 오후 3:58</td>
-                <td class="p-4 text-gray-500">5분 11초</td>
-                <td class="p-4 text-gray-500">AI</td>
-                <td class="p-4 text-gray-500"><span class="flex items-center space-x-2"><span class="status-dot bg-green-500"></span><span class="text-completed">완료</span></span></td>
-                <td class="p-4 text-gray-500 text-right"><button><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M10 6a2 2 0 110-4 2 2 0 010 4zm0 6a2 2 0 110-4 2 2 0 010 4zm0 6a2 2 0 110-4 2 2 0 010 4z"/></svg></button></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </main>
-    </div>
-  </div>
+        transcribeBtn.addEventListener('click', () => {
+            dashboardPage.classList.add('hidden');
+            loginPage.classList.remove('hidden');
+            document.title = 'Transora.ai - 언어 장벽을 허무는 AI 자막 & 번역';
+        });
 
-  <!-- Feature Modals -->
-  <div id="modal-f1" class="modal fixed inset-0 hidden items-center justify-center bg-black/50 p-4 z-50">
-    <div class="bg-white rounded-2xl shadow-xl max-w-3xl w-full overflow-hidden">
-      <div class="flex justify-between items-center px-6 py-4 border-b">
-        <h3 class="text-xl font-bold">고정밀 & 초고속 데모</h3>
-        <button data-close class="p-2 rounded hover:bg-gray-100" aria-label="닫기">✕</button>
-      </div>
-      <div class="p-6 space-y-4">
-        <p class="text-gray-700">GPU 가속과 경량 파이프라인으로 빠르고 정확한 처리 속도를 제공합니다.</p>
-        <video controls class="w-full rounded-lg shadow" poster="https://placehold.co/800x450/111/FFF?text=Speed+Demo+Poster">
-          <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" type="video/mp4">
-        </video>
-      </div>
-    </div>
-  </div>
-
-  <div id="modal-f2" class="modal fixed inset-0 hidden items-center justify-center bg-black/50 p-4 z-50">
-    <div class="bg-white rounded-2xl shadow-xl max-w-3xl w-full overflow-hidden">
-      <div class="flex justify-between items-center px-6 py-4 border-b">
-        <h3 class="text-xl font-bold">원스톱 파이프라인 데모</h3>
-        <button data-close class="p-2 rounded hover:bg-gray-100" aria-label="닫기">✕</button>
-      </div>
-      <div class="p-6 space-y-4">
-        <p class="text-gray-700">업로드 → 전사 → 번역 → 요약 → 검수까지 과정을 자동으로 연결합니다.</p>
-        <video controls class="w-full rounded-lg shadow" poster="https://placehold.co/800x450/111/FFF?text=Pipeline+Demo+Poster">
-          <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" type="video/mp4">
-        </video>
-      </div>
-    </div>
-  </div>
-
-  <div id="modal-f3" class="modal fixed inset-0 hidden items-center justify-center bg-black/50 p-4 z-50">
-    <div class="bg-white rounded-2xl shadow-xl max-w-3xl w-full overflow-hidden">
-      <div class="flex justify-between items-center px-6 py-4 border-b">
-        <h3 class="text-xl font-bold">한국어 특화 & 다국어 데모</h3>
-        <button data-close class="p-2 rounded hover:bg-gray-100" aria-label="닫기">✕</button>
-      </div>
-      <div class="p-6 space-y-4">
-        <p class="text-gray-700">한국어 화자·어투에 강한 전사, 98개 언어 번역/자막을 경험해 보세요.</p>
-        <video controls class="w-full rounded-lg shadow" poster="https://placehold.co/800x450/111/FFF?text=Languages+Demo+Poster">
-          <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" type="video/mp4">
-        </video>
-      </div>
-    </div>
-  </div>
-
-  <div id="modal-f4" class="modal fixed inset-0 hidden items-center justify-center bg-black/50 p-4 z-50">
-    <div class="bg-white rounded-2xl shadow-xl max-w-3xl w-full overflow-hidden">
-      <div class="flex justify-between items-center px-6 py-4 border-b">
-        <h3 class="text-xl font-bold">듣고 <em>보고</em> 전사 (Video-aware) 데모</h3>
-        <button data-close class="p-2 rounded hover:bg-gray-100" aria-label="닫기">✕</button>
-      </div>
-      <div class="p-6 space-y-4">
-        <p class="text-gray-700">해당 타임코드의 화면(자막, 화면텍스트, 표정 등)을 참고해 음성만으로 놓칠 수 있는 의미를 보강합니다.</p>
-        <video controls class="w-full rounded-lg shadow" poster="https://placehold.co/800x450/111/FFF?text=Video-aware+Demo+Poster">
-          <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" type="video/mp4">
-        </video>
-      </div>
-    </div>
-  </div>
-
-  <div id="modal-f5" class="modal fixed inset-0 hidden items-center justify-center bg-black/50 p-4 z-50">
-    <div class="bg-white rounded-2xl shadow-xl max-w-3xl w-full overflow-hidden">
-      <div class="flex justify-between items-center px-6 py-4 border-b">
-        <h3 class="text-xl font-bold">문맥 기반 후방 보정 데모</h3>
-        <button data-close class="p-2 rounded hover:bg-gray-100" aria-label="닫기">✕</button>
-      </div>
-      <div class="p-6 space-y-4">
-        <p class="text-gray-700">대화/강의 흐름을 추적해 이후 구간 처리 중 이전 텍스트를 재보정합니다.</p>
-        <video controls class="w-full rounded-lg shadow" poster="https://placehold.co/800x450/111/FFF?text=Refinement+Demo+Poster">
-          <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" type="video/mp4">
-        </video>
-      </div>
-    </div>
-  </div>
-
-  <!-- Signup Modal -->
-  <div id="modal-signup" class="modal fixed inset-0 hidden items-center justify-center bg-black/50 p-4 z-50">
-    <div class="bg-white rounded-2xl shadow-xl max-w-2xl w-full overflow-hidden">
-      <div class="flex justify-between items-center px-6 py-4 border-b">
-        <h3 class="text-xl font-bold">회원가입</h3>
-        <button data-close class="p-2 rounded hover:bg-gray-100" aria-label="닫기">✕</button>
-      </div>
-      <div class="p-6 space-y-6">
-        <div>
-          <p class="text-sm text-gray-600 mb-3">SNS 계정으로 빠르게 가입</p>
-          <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
-            <button class="w-full border rounded-lg py-2.5 font-semibold hover:bg-gray-50 flex items-center justify-center gap-2"><span class="text-lg">🟢</span><span>Google</span></button>
-            <button class="w-full border rounded-lg py-2.5 font-semibold hover:bg-gray-50 flex items-center justify-center gap-2"><span class="text-lg">🔵</span><span>Facebook</span></button>
-            <button class="w-full border rounded-lg py-2.5 font-semibold hover:bg-gray-50 flex items-center justify-center gap-2"><span class="text-lg">⚪️</span><span>Apple</span></button>
-            <button class="w-full border rounded-lg py-2.5 font-semibold hover:bg-gray-50 flex items-center justify-center gap-2"><span class="text-lg">⚫️</span><span>GitHub</span></button>
-            <button class="w-full border rounded-lg py-2.5 font-semibold hover:bg-gray-50 flex items-center justify-center gap-2"><span class="text-lg">🟡</span><span>Kakao</span></button>
-            <button class="w-full border rounded-lg py-2.5 font-semibold hover:bg-gray-50 flex items-center justify-center gap-2"><span class="text-lg">🟩</span><span>Naver</span></button>
-            <button class="w-full border rounded-lg py-2.5 font-semibold hover:bg-gray-50 flex items-center justify-center gap-2 sm:col-span-3"><span class="text-lg">🟦</span><span>Microsoft</span></button>
-          </div>
-        </div>
-
-        <div class="flex items-center gap-4">
-          <div class="h-px bg-gray-200 flex-1"></div>
-          <span class="text-xs text-gray-500">또는 이메일로 가입</span>
-          <div class="h-px bg-gray-200 flex-1"></div>
-        </div>
-
-        <form action="#" method="post" class="space-y-4">
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label class="block mb-1 text-sm font-semibold">이름</label>
-              <input type="text" class="w-full border rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-indigo-500" required>
-            </div>
-            <div>
-              <label class="block mb-1 text-sm font-semibold">이메일</label>
-              <input type="email" class="w-full border rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-indigo-500" required>
-            </div>
-          </div>
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label class="block mb-1 text-sm font-semibold">비밀번호</label>
-              <input type="password" class="w-full border rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-indigo-500" minlength="8" required>
-            </div>
-            <div>
-              <label class="block mb-1 text-sm font-semibold">비밀번호 확인</label>
-              <input type="password" class="W-full border rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-indigo-500" minlength="8" required>
-            </div>
-          </div>
-          <label class="flex items-start gap-2 text-sm text-gray-600">
-            <input type="checkbox" required class="mt-1 rounded text-indigo-600 focus:ring-indigo-500">
-            <span><a href="terms.html" class="underline">이용약관</a> 및 <a href="privacy.html" class="underline">개인정보처리방침</a>에 동의합니다.</span>
-          </label>
-          <button type="submit" class="w-full bg-indigo-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-indigo-700">이메일로 가입하기</button>
-          <p class="text-xs text-gray-500">SNS 버튼은 데모 UI입니다. 실제 연동은 추후 백엔드(OAuth) 연결이 필요합니다.</p>
-        </form>
-      </div>
-    </div>
-  </div>
-
-  <!-- JS -->
-  <script>
-    // Toggle dashboard mock
-    const loginPage = document.getElementById('login-page');
-    const dashboardPage = document.getElementById('dashboard-page');
-    const loginBtn = document.getElementById('login-btn');
-    const transcribeBtn = document.getElementById('transcribe-btn');
-
-    if (loginBtn) {
-      loginBtn.addEventListener('click', () => {
-        loginPage.classList.add('hidden');
-        dashboardPage.classList.remove('hidden');
-        document.title = 'Transora.ai - 최근 작업 내역';
-      });
-    }
-    if (transcribeBtn) {
-      transcribeBtn.addEventListener('click', () => {
-        dashboardPage.classList.add('hidden');
-        loginPage.classList.remove('hidden');
-        document.title = 'Transora.ai - 언어 장벽을 허무는 AI 자막 & 번역';
-      });
-    }
-
-    function processVideo() {
-      const videoLink = document.getElementById('videoLinkInput').value;
-      if (videoLink) {
-        alert('동영상 처리 요청이 접수되었습니다. 핵심 엔진이 곧 시작됩니다!');
-      } else {
-        alert('유튜브 링크를 입력하거나 파일을 업로드해주세요.');
-      }
-    }
-
-    // Reveal on scroll
-    const io = new IntersectionObserver((entries)=>{
-      entries.forEach(e=>{
-        if(e.isIntersecting){ e.target.classList.add('revealed'); io.unobserve(e.target); }
-      });
-    }, {threshold: 0.15});
-    document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
-
-    // Modal open/close helpers
-    function openModal(id){
-      const el = document.getElementById(id);
-      if(!el) return;
-      el.classList.remove('hidden');
-      el.classList.add('flex');
-    }
-    function closeModal(el){
-      el.classList.add('hidden');
-      el.classList.remove('flex');
-      el.querySelectorAll('video').forEach(v=>{ try{ v.pause(); }catch(_){} });
-    }
-
-    // Global click handler
-    document.addEventListener('click', (e)=>{
-      const btn = e.target.closest('[data-modal]');
-      if(btn){ openModal(btn.getAttribute('data-modal')); }
-
-      if(e.target.matches('[data-close]')){
-        const modal = e.target.closest('.modal');
-        if(modal) closeModal(modal);
-      }
-      // click on backdrop
-      const modal = e.target.classList.contains('modal') ? e.target : null;
-      if(modal){ closeModal(modal); }
-    });
-
-    // Esc to close
-    document.addEventListener('keydown', (e)=>{
-      if(e.key === 'Escape'){
-        document.querySelectorAll('.modal.flex').forEach(m=>closeModal(m));
-      }
-    });
-  </script>
+        function processVideo() {
+            const videoLink = document.getElementById('videoLinkInput').value;
+            if (videoLink) {
+                alert('동영상 처리 요청이 접수되었습니다. 핵심 엔진이 곧 시작됩니다!');
+            } else {
+                alert('유튜브 링크를 입력하거나 파일을 업로드해주세요.');
+            }
+        }
+    </script>
 </body>
 </html>
