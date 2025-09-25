@@ -18,7 +18,7 @@
         <a href="landing.html#pricing" class="text-gray-600 hover:text-indigo-600">가격</a>
         <a href="landing.html#testimonials" class="text-gray-600 hover:text-indigo-600">후기</a>
         <a href="contact.html" class="text-gray-600 hover:text-indigo-600">문의</a>
-      </nav>
+      </nav><div class="flex items-center space-x-4"><button id="login-btn" class="bg-indigo-600 text-white px-4 py-2 rounded-full font-semibold hover:bg-indigo-700 transition duration-300">로그인</button><button id="signup-btn" class="bg-white text-indigo-600 border border-indigo-600 px-4 py-2 rounded-full font-semibold hover:bg-gray-100 transition duration-300">회원가입</button></div>
     </div>
   </header>
 
@@ -64,5 +64,75 @@
       </div>
     </div>
   </footer>
+
+<!-- Signup Modal -->
+<div id="signup-modal" class="fixed inset-0 hidden items-center justify-center bg-black/50 p-4 z-50">
+  <div class="bg-white rounded-2xl shadow-xl w-full max-w-md overflow-hidden">
+    <div class="flex justify-between items-center px-6 py-4 border-b">
+      <h3 class="text-lg md:text-xl font-bold">회원가입</h3>
+      <button data-close-signup class="p-2 rounded hover:bg-gray-100" aria-label="닫기">✕</button>
+    </div>
+    <div class="p-6 space-y-6">
+      <div>
+        <h4 class="font-semibold mb-2">SNS로 빠르게 시작</h4>
+        <div class="grid grid-cols-1 gap-3">
+          <a href="#" class="w-full border rounded-lg px-4 py-3 flex items-center justify-center gap-2 hover:bg-gray-50" aria-label="Continue with Google">
+            <span>🔐</span><span>Google로 계속</span>
+          </a>
+          <a href="#" class="w-full border rounded-lg px-4 py-3 flex items-center justify-center gap-2 hover:bg-gray-50" aria-label="Continue with Apple">
+            <span>🍎</span><span>Apple로 계속</span>
+          </a>
+          <a href="#" class="w-full border rounded-lg px-4 py-3 flex items-center justify-center gap-2 hover:bg-gray-50" aria-label="Continue with Facebook">
+            <span>📘</span><span>Facebook으로 계속</span>
+          </a>
+        </div>
+      </div>
+      <div class="border-t pt-4">
+        <h4 class="font-semibold mb-2">이메일로 가입</h4>
+        <form action="#" method="POST" class="space-y-3">
+          <div>
+            <label class="block text-sm font-medium mb-1">이름</label>
+            <input type="text" name="name" required class="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-indigo-500">
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-1">이메일</label>
+            <input type="email" name="email" required class="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-indigo-500">
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-1">비밀번호</label>
+            <input type="password" name="password" required class="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-indigo-500">
+          </div>
+          <button type="submit" class="w-full bg-indigo-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-indigo-700">가입하기</button>
+          <p class="text-xs text-gray-500 mt-2">가입 시 <a href="terms.html" class="underline">이용약관</a> 및 <a href="privacy.html" class="underline">개인정보처리방침</a>에 동의하게 됩니다.</p>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  // open/close signup modal
+  document.addEventListener('click', function(e){
+    const openBtn = e.target.closest('#signup-btn');
+    const closeBtn = e.target.closest('[data-close-signup]');
+    const modal = document.getElementById('signup-modal');
+    if(openBtn && modal){
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+    if(closeBtn && modal){
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+  });
+  // ESC to close
+  document.addEventListener('keydown', function(e){
+    const modal = document.getElementById('signup-modal');
+    if(e.key === 'Escape' && modal && !modal.classList.contains('hidden')){
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+  });
+</script>
+
 </body>
 </html>
